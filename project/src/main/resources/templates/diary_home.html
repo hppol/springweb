@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>감성 공유 일기장</title>
+<style>
+body {
+	background: #f5f6fa;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	color: #333;
+	margin-top: 80px;
+	font-size: 2.2em;
+}
+
+.btn-group {
+	margin-top: 40px;
+}
+
+.signup-btn, .login-btn, .logout-btn {
+	display: inline-block;
+	padding: 12px 36px;
+	background: #4f8cff;
+	color: #fff;
+	border: none;
+	border-radius: 30px;
+	font-size: 1.1em;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background 0.2s;
+	box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+	margin: 0 10px;
+}
+
+.signup-btn:hover, .login-btn:hover, .logout-btn:hover {
+	background: #357ae8;
+}
+</style>
+</head>
+<body>
+	<h1>감성 공유 일기장에 오신 것을 환영합니다!</h1>
+	<div class="btn-group">
+		<!-- 로그인 안 한 경우: 회원가입/로그인 버튼 -->
+		<th:block th:if="${session.userid == null}">
+			<a th:href="@{/diary/signup}" class="signup-btn">회원가입</a>
+			<a th:href="@{/diary/login}" class="login-btn">로그인</a>
+		</th:block>
+		<!-- 로그인 한 경우: 로그아웃 버튼만 -->
+		<th:block th:if="${session.userid != null}">
+			<a th:href="@{/diary/logout}" class="logout-btn">로그아웃</a>
+		</th:block>
+	</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>로그인 완료</title>
+<style>
+body {
+	background: #f8fafc;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.complete-container {
+	width: 350px;
+	margin: 120px auto;
+	padding: 36px 28px 32px 28px;
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+h2 {
+	color: #333;
+	margin-bottom: 32px;
+	font-size: 1.5em;
+}
+
+.main-btn {
+	display: inline-block;
+	padding: 12px 38px;
+	background: #4f8cff;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	font-size: 1.1em;
+	font-weight: bold;
+	text-decoration: none;
+	transition: background 0.2s;
+	margin-top: 12px;
+}
+
+.main-btn:hover {
+	background: #357ae8;
+}
+</style>
+</head>
+<body>
+	<div class="complete-container">
+		<h2>로그인이 완료되었습니다!</h2>
+		<a th:href="@{/diary}" class="main-btn">일기장 메인으로</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>사용자 로그인</title>
+<style>
+body {
+	font-family: '맑은 고딕', Arial, sans-serif;
+	background: #f5f6fa;
+	margin: 0;
+	padding: 0;
+}
+
+.login-container {
+	width: 350px;
+	margin: 80px auto;
+	padding: 30px 25px 25px 25px;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+}
+
+h3 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 24px;
+}
+
+.login-container p {
+	margin: 16px 0;
+}
+
+input[type="text"], input[type="password"] {
+	width: 94%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 15px;
+}
+
+input[type="reset"], input[type="submit"] {
+	padding: 8px 18px;
+	border: none;
+	border-radius: 5px;
+	background: #3b82f6;
+	color: #fff;
+	font-size: 15px;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+input[type="reset"] {
+	background: #aaa;
+}
+
+.error-message {
+	color: #e74c3c;
+	text-align: left;
+	margin-bottom: 10px;
+	font-size: 10px;
+}
+</style>
+</head>
+<body>
+	<div class="login-container">
+		<h3>사용자 로그인</h3>
+
+		<form th:action="@{/diary/login}" method="post">
+			<p>
+				아이디: <input type="text" name="userid" required />
+			</p>
+			<p>
+				비밀번호: <input type="password" name="passwd" required />
+			</p>
+			<div th:if="${loginError}" class="error-message"
+				th:text="${loginError}"></div>
+			<p>
+				<input type="reset" value="취소" /> <input type="submit" value="로그인" />
+			</p>
+		</form>
+	</div>
+</body>
+</html>
