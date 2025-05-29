@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/diary")
-public class DiaryController {
+public class DiaryAuthenticationController {
 	@Autowired
 	private SiteUserService userService;
 

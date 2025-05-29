@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>글 작성 완료</title>
+<style>
+body {
+	background: #f5f6fa;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.complete-container {
+	width: 400px;
+	margin: 120px auto;
+	padding: 36px 28px 32px 28px;
+	background: #fff;
+	border-radius: 12px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+	text-align: center;
+}
+
+h3 {
+	color: #333;
+	margin-bottom: 28px;
+	font-size: 1.5em;
+}
+
+p {
+	font-size: 1.1em;
+	color: #444;
+	margin-bottom: 22px;
+}
+
+.list-btn {
+	display: inline-block;
+	padding: 11px 34px;
+	background: #4f8cff;
+	color: #fff;
+	border: none;
+	border-radius: 30px;
+	font-size: 1.1em;
+	font-weight: bold;
+	text-decoration: none;
+	transition: background 0.2s;
+	box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
+	margin-top: 10px;
+}
+
+.list-btn:hover {
+	background: #357ae8;
+}
+</style>
+</head>
+<body>
+	<div class="complete-container">
+		<h3>글 작성 완료</h3>
+		<p>글 작성이 성공적으로 완료되었습니다.</p>
+		<a th:href="@{/diary/bbs}" class="list-btn">글 목록으로</a>
+	</div>
+</body>
+</html>

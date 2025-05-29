@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시글 목록</title>
+<style>
+body {
+	background: #f5f6fa;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.articles-container {
+	width: 900px;
+	margin: 60px auto;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+	padding: 36px 32px 32px 32px;
+}
+
+h3 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 32px;
+	font-size: 1.6em;
+}
+
+.top-links {
+	text-align: right;
+	margin-bottom: 18px;
+}
+
+.top-links a {
+	display: inline-block;
+	margin-left: 12px;
+	padding: 8px 24px;
+	background: #4f8cff;
+	color: #fff;
+	border-radius: 30px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background 0.2s;
+}
+
+.top-links a:hover {
+	background: #357ae8;
+}
+
+.table-list {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+.table-list th, .table-list td {
+	border-bottom: 1px solid #e2e8f0;
+	padding: 14px 8px;
+	text-align: center;
+}
+
+.table-list th {
+	background: #f1f5fb;
+	color: #333;
+	font-size: 1.05em;
+}
+
+.table-list tr:last-child td {
+	border-bottom: none;
+}
+
+.table-list td {
+	color: #444;
+	font-size: 1em;
+}
+</style>
+</head>
+<body>
+	<div class="articles-container">
+		<h3>게시글 목록</h3>
+		<div class="top-links">
+			<a th:href="@{/diary}">첫 페이지</a>
+			<!-- 로그인한 경우만 글쓰기 버튼 노출 -->
+			<th:block th:if="${session.userid != null}">
+				<a th:href="@{/diary/bbs/write}">글 작성</a>
+			</th:block>
+		</div>
+		<table class="table-list">
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성자</th>
+				<th>내용</th>
+			</tr>
+			<tr th:each="article : ${articles}">
+				<td th:text="${article.num}"></td>
+				<td th:text="${article.title}"></td>
+				<td th:text="${article.author}"></td>
+				<td th:text="${article.contents}"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

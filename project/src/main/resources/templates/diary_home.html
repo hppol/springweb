@@ -40,16 +40,56 @@ h1 {
 .signup-btn:hover, .login-btn:hover, .logout-btn:hover {
 	background: #357ae8;
 }
+
+.write-btn {
+	display: inline-block;
+	padding: 12px 36px;
+	background: #10b981;
+	color: #fff;
+	border: none;
+	border-radius: 30px;
+	font-size: 1.1em;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background 0.2s;
+	box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
+	margin: 0 10px;
+}
+
+.write-btn:hover {
+	background: #059669;
+}
+
+.bbs-btn {
+	display: inline-block;
+	padding: 12px 36px;
+	background: #6366f1;
+	color: #fff;
+	border: none;
+	border-radius: 30px;
+	font-size: 1.1em;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background 0.2s;
+	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
+	margin: 0 10px;
+}
+
+.bbs-btn:hover {
+	background: #4338ca;
+}
 </style>
 </head>
 <body>
 	<h1>감성 공유 일기장에 오신 것을 환영합니다!</h1>
 	<div class="btn-group">
+		<a th:href="@{/diary/bbs}" class="bbs-btn">게시글</a>
 		<!-- 로그인 안 한 경우: 회원가입/로그인 버튼 -->
 		<th:block th:if="${session.userid == null}">
 			<a th:href="@{/diary/signup}" class="signup-btn">회원가입</a>
 			<a th:href="@{/diary/login}" class="login-btn">로그인</a>
 		</th:block>
+		<a th:href="@{/diary/bbs/write}" class="write-btn">글쓰기</a>
 		<!-- 로그인 한 경우: 로그아웃 버튼만 -->
 		<th:block th:if="${session.userid != null}">
 			<a th:href="@{/diary/logout}" class="logout-btn">로그아웃</a>

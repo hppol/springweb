@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시물 글 작성</title>
+<style>
+body {
+	background: #f5f6fa;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.write-container {
+	width: 650px; /* 기존 400px에서 크게! */
+	margin: 80px auto;
+	padding: 40px 36px 36px 36px;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+h3 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 32px;
+	font-size: 1.7em;
+}
+
+.write-container p {
+	margin: 24px 0;
+}
+
+input[type="text"], textarea {
+	width: 98%;
+	padding: 14px;
+	border: 1.5px solid #bbb;
+	border-radius: 7px;
+	font-size: 17px;
+	resize: vertical;
+	box-sizing: border-box;
+}
+
+textarea {
+	min-height: 220px; /* 기존보다 훨씬 큼 */
+}
+
+input[type="reset"], input[type="submit"] {
+	padding: 11px 30px;
+	border: none;
+	border-radius: 7px;
+	background: #4f8cff;
+	color: #fff;
+	font-size: 17px;
+	margin-right: 10px;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+input[type="reset"] {
+	background: #aaa;
+}
+
+input[type="reset"]:hover {
+	background: #888;
+}
+
+input[type="submit"]:hover {
+	background: #357ae8;
+}
+</style>
+</head>
+<body>
+	<div class="write-container">
+		<h3>게시물 글 작성</h3>
+		<form th:action="@{/diary/bbs/write}" method="post">
+			<p>
+				제목: <input type="text" name="title" required />
+			</p>
+			<p>
+				내용:
+				<textarea name="contents" required></textarea>
+			</p>
+			<p>
+				<input type="reset" value="취소" /> <input type="submit" value="등록" />
+			</p>
+		</form>
+	</div>
+</body>
+</html>
