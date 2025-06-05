@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>게시글 목록</title>
+<title>게시글 내용</title>
 <style>
 body {
 	background: #f5f6fa;
@@ -11,8 +11,8 @@ body {
 	padding: 0;
 }
 
-.articles-container {
-	width: 900px;
+.article-container {
+	width: 700px;
 	margin: 60px auto;
 	background: #fff;
 	border-radius: 16px;
@@ -48,55 +48,50 @@ h3 {
 	background: #357ae8;
 }
 
-.table-list {
+.detail-table {
 	width: 100%;
 	border-collapse: collapse;
 	margin-top: 10px;
 }
 
-.table-list th, .table-list td {
+.detail-table td {
 	border-bottom: 1px solid #e2e8f0;
 	padding: 14px 8px;
-	text-align: center;
+	font-size: 1em;
+	color: #444;
 }
 
-.table-list th {
-	background: #f1f5fb;
-	color: #333;
-	font-size: 1.05em;
-}
-
-.table-list tr:last-child td {
+.detail-table tr:last-child td {
 	border-bottom: none;
 }
 
-.table-list td {
-	color: #444;
-	font-size: 1em;
+.detail-table td:first-child {
+	background: #f1f5fb;
+	color: #333;
+	width: 110px;
+	font-weight: bold;
+	text-align: center;
 }
 </style>
 </head>
 <body>
-	<div class="articles-container">
-		<h3>게시글 목록</h3>
+	<div class="article-container">
+		<h3>게시글 내용</h3>
 		<div class="top-links">
-			<a th:href="@{/diary}">첫 페이지</a>
-			<!-- 로그인한 경우만 글쓰기 버튼 노출 -->
-			<th:block th:if="${session.userid != null}">
-				<a th:href="@{/diary/bbs/write}">글 작성</a>
-			</th:block>
+			<a th:href="@{/diary/bbs}">글 목록</a>
 		</div>
-		<table class="table-list">
+		<table class="detail-table">
 			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
+				<td>제목</td>
+				<td>[[${article.title}]]</td>
 			</tr>
-			<tr th:each="article : ${articles}">
-				<td th:text="${article.num}"></td>
-				<td><a th:href="@{/diary/bbs/read(num=${article.num})}">
-						[[${article.title}]] </a></td>
-				<td th:text="${article.author}"></td>
+			<tr>
+				<td>작성자</td>
+				<td>[[${article.author}]]</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td style="white-space: pre-line;">[[${article.contents}]]</td>
 			</tr>
 		</table>
 	</div>

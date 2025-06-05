@@ -6,9 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ce.mnu.project.domain.ArticleDTO;
 import ce.mnu.project.repository.Article;
+import ce.mnu.project.repository.ArticleHeader;
 import ce.mnu.project.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 
@@ -21,12 +23,20 @@ public class DiaryArticleController {
 
 	@GetMapping("bbs")
 	public String articles(Model model) {
-		Iterable<Article> articles = userService.getArticleAll();
-		model.addAttribute("articles", articles);
+		Iterable<ArticleHeader> data = userService.getArticleHeaders();
+		model.addAttribute("articles", data);
 		return "diary_articles";
 	}
 
+	@GetMapping("bbs/read")
+	public String readArticle(@RequestParam(name = "num") Long num, Model model, HttpSession session) {
+		Article article = userService.getArticle(num);
+		model.addAttribute("article", article);
+		return "diary_article";
+	}
+
 	@GetMapping("bbs/write")
+
 	public String write(HttpSession session) {
 		String userid = (String) session.getAttribute("userid");
 		if (userid == null) {
