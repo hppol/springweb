@@ -1,5 +1,7 @@
 package ce.mnu.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,8 @@ import ce.mnu.project.domain.UserDTO;
 import ce.mnu.project.repository.Article;
 import ce.mnu.project.repository.ArticleHeader;
 import ce.mnu.project.repository.ArticleRepository;
+import ce.mnu.project.repository.Comment;
+import ce.mnu.project.repository.CommentRepository;
 import ce.mnu.project.repository.SiteUser;
 import ce.mnu.project.repository.SiteUserRepository;
 
@@ -17,6 +21,16 @@ public class SiteUserService {
 	private SiteUserRepository userRepository;
 	@Autowired
 	private ArticleRepository articleRepository;
+	@Autowired
+	private CommentRepository commentRepository;
+	
+	public void saveComment(Comment comment) {
+		commentRepository.save(comment);
+	}
+	
+	public List<Comment> getCommentsByArticleNum(Long articleNum){
+		return commentRepository.findByArticleNum(articleNum);
+	}
 
 	public Iterable<ArticleHeader> getArticleHeaders() {
 		return articleRepository.findArticleHeaders();

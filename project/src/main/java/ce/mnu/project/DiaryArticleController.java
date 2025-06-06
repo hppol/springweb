@@ -1,5 +1,7 @@
 package ce.mnu.project;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ce.mnu.project.domain.ArticleDTO;
 import ce.mnu.project.repository.Article;
 import ce.mnu.project.repository.ArticleHeader;
+import ce.mnu.project.repository.Comment;
 import ce.mnu.project.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 
@@ -45,7 +48,10 @@ public class DiaryArticleController {
 	@GetMapping("bbs/read")
 	public String readArticle(@RequestParam(name = "num") Long num, Model model, HttpSession session) {
 		Article article = userService.getArticle(num);
+		List<Comment> comments = userService.getCommentsByArticleNum(num);
+		
 		model.addAttribute("article", article);
+		model.addAttribute("comments",comments);
 		return "diary_article";
 	}
 
@@ -65,6 +71,26 @@ public class DiaryArticleController {
 		dto.setAuthor(userid);
 		userService.save(dto);
 		return "diary_write_done";
+	}
+	
+	@PostMapping("bbs/comment")
+	public String postComment(@RequestParam Long articleNum,
+							  @RequestParam String content,
+							  HttpSession session) {
+		String userid = (String)session.getAttribute("userid");
+		if(userid ==null) {
+			return "redirect:/diary/login";
+		}
+		Article article = userService.getArticle(articleNum);
+		
+		Comment comment = new Comment();
+		comment.setAuthor(userid);
+		comment.setContent(content);
+		comment.setArticle(article);
+		
+		userService.saveComment(comment);
+		
+		return "redirect:/diary/bbs/read?num=" + articleNum;
 	}
 
 }
