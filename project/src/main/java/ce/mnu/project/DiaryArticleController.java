@@ -31,6 +31,7 @@ public class DiaryArticleController {
 	@GetMapping("bbs/mypage")
 	public String autharticles(Model model, HttpSession session) {
 	    String userid = (String) session.getAttribute("userid");
+	    // 로그인안하면 로그인시킴
 	    if (userid == null) {
 	        return "redirect:/diary/login";
 	    }
