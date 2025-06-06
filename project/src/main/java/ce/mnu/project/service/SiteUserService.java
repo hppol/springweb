@@ -1,5 +1,6 @@
 package ce.mnu.project.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class SiteUserService {
 		article.setAuthor(dto.getAuthor());
 		article.setTitle(dto.getTitle());
 		article.setContents(dto.getContents());
+		article.setCreatedAt(LocalDateTime.now());
 		articleRepository.save(article);
 	}
 

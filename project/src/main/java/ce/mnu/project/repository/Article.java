@@ -1,5 +1,7 @@
 package ce.mnu.project.repository;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,4 +23,6 @@ public class Article {
 	 private String title;
 	 @Column(length = 2048, nullable = false)
 	 private String contents;
+	 @Column(name = "created_at", nullable = false)
+	 private LocalDateTime createdAt;
 }
