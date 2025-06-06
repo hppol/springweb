@@ -83,7 +83,8 @@ h1 {
 <body>
 	<h1>감성 공유 일기장에 오신 것을 환영합니다!</h1>
 	<div class="btn-group">
-		<a th:href="@{/diary/bbs}" class="bbs-btn">게시글</a>
+		<a th:href="@{/diary/bbs}" class="bbs-btn">전체게시글</a>
+		<a th:href="@{/diary/bbs/mypage}" class="bbs-btn">개인게시글</a>
 		<!-- 로그인 안 한 경우: 회원가입/로그인 버튼 -->
 		<th:block th:if="${session.userid == null}">
 			<a th:href="@{/diary/signup}" class="signup-btn">회원가입</a>

@@ -27,6 +27,19 @@ public class DiaryArticleController {
 		model.addAttribute("articles", data);
 		return "diary_articles";
 	}
+	
+	@GetMapping("bbs/mypage")
+	public String autharticles(Model model, HttpSession session) {
+	    String userid = (String) session.getAttribute("userid");
+	    if (userid == null) {
+	        return "redirect:/diary/login";
+	    }
+
+	    Iterable<ArticleHeader> data = userService.getMyArticleHeaders(userid);
+	    model.addAttribute("articles", data);
+	    return "diary_articles_mypage";
+	}
+
 
 	@GetMapping("bbs/read")
 	public String readArticle(@RequestParam(name = "num") Long num, Model model, HttpSession session) {

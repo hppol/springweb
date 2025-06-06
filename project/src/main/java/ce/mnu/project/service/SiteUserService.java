@@ -46,5 +46,10 @@ public class SiteUserService {
 	public Iterable<Article> getArticleAll() {
 		return articleRepository.findAll();
 	}
+	
+	public Iterable<ArticleHeader> getMyArticleHeaders(String userid) {
+	    return articleRepository.findArticleHeadersByAuthor(userid);
+	}
+
 
 }
