@@ -18,11 +18,11 @@ public class Article {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long num;
 	@Column(length = 20, nullable = false)
-    private String author;
-	 @Column(length = 50, nullable = false)
-	 private String title;
-	 @Column(length = 2048, nullable = false)
-	 private String contents;
-	 @Column(name = "created_at", nullable = false)
-	 private LocalDateTime createdAt;
+	private String author;
+	@Column(length = 50, nullable = false)
+	private String title;
+	@Column(length = 2048, nullable = false)
+	private String contents;
+	@Column(name = "created_at", nullable = false)
+	private LocalDateTime createdAt;
 }

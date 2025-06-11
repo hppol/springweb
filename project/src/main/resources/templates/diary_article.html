@@ -112,7 +112,6 @@ h3 {
 .comment-form button:hover {
 	background: #357ae8;
 }
-
 </style>
 </head>
 <body>
@@ -136,22 +135,27 @@ h3 {
 			</tr>
 			<tr>
 				<td>작성일</td>
-				<td>[[${article.createdAt}]]</td>
+				<td
+					th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
 			</tr>
 		</table>
-		
+
 		<!-- 댓글 영역 -->
 		<div class="comment-section">
 			<h4>댓글</h4>
 			<div th:each="comment : ${comments}" class="comment">
-				<p><strong th:text="${comment.author}"></strong> : <span th:text="${comment.content}"></span></p>
+				<p>
+					<strong th:text="${comment.author}"></strong> : <span
+						th:text="${comment.content}"></span>
+				</p>
 			</div>
 
 			<!-- 로그인된 사용자만 댓글 작성 -->
 			<div class="comment-form" th:if="${session.userid != null}">
 				<form th:action="@{/diary/bbs/comment}" method="post">
 					<input type="hidden" name="articleNum" th:value="${article.num}" />
-					<textarea name="content" placeholder="댓글을 입력하세요..."></textarea><br>
+					<textarea name="content" placeholder="댓글을 입력하세요..."></textarea>
+					<br>
 					<button type="submit">댓글 등록</button>
 				</form>
 			</div>
