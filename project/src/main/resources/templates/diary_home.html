@@ -1,100 +1,272 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>감성 공유 일기장</title>
 <style>
 body {
-	background: #f5f6fa;
-	font-family: 'Segoe UI', Arial, sans-serif;
-	text-align: center;
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-h1 {
-	color: #333;
-	margin-top: 80px;
-	font-size: 2.2em;
+.hero-section {
+    text-align: center;
+    padding: 100px 20px;
+    color: white;
+    position: relative;
 }
 
-.btn-group {
-	margin-top: 40px;
+.hero-title {
+    font-size: 3.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInUp 1s ease-out;
 }
 
-.signup-btn, .login-btn, .logout-btn {
-	display: inline-block;
-	padding: 12px 36px;
-	background: #4f8cff;
-	color: #fff;
-	border: none;
-	border-radius: 30px;
-	font-size: 1.1em;
-	text-decoration: none;
-	font-weight: bold;
-	transition: background 0.2s;
-	box-shadow: 0 2px 8px rgba(79, 140, 255, 0.08);
-	margin: 0 10px;
+.hero-subtitle {
+    font-size: 1.3em;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
 }
 
-.signup-btn:hover, .login-btn:hover, .logout-btn:hover {
-	background: #357ae8;
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 60px;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 0.6s both;
 }
 
-.write-btn {
-	display: inline-block;
-	padding: 12px 36px;
-	background: #10b981;
-	color: #fff;
-	border: none;
-	border-radius: 30px;
-	font-size: 1.1em;
-	text-decoration: none;
-	font-weight: bold;
-	transition: background 0.2s;
-	box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
-	margin: 0 10px;
+.feature-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px 25px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.write-btn:hover {
-	background: #059669;
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-.bbs-btn {
-	display: inline-block;
-	padding: 12px 36px;
-	background: #6366f1;
-	color: #fff;
-	border: none;
-	border-radius: 30px;
-	font-size: 1.1em;
-	text-decoration: none;
-	font-weight: bold;
-	transition: background 0.2s;
-	box-shadow: 0 2px 8px rgba(99, 102, 241, 0.08);
-	margin: 0 10px;
+.feature-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+    display: block;
 }
 
-.bbs-btn:hover {
-	background: #4338ca;
+.feature-title {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.feature-description {
+    font-size: 1em;
+    opacity: 0.8;
+    line-height: 1.5;
+    color: white;
+}
+
+.cta-section {
+    margin-top: 80px;
+    animation: fadeInUp 1s ease-out 0.9s both;
+}
+
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    padding: 18px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(238, 90, 36, 0.3);
+    margin: 0 10px;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(238, 90, 36, 0.4);
+    color: white;
+    text-decoration: none;
+}
+
+.cta-button.secondary {
+    background: linear-gradient(45deg, #74b9ff, #0984e3);
+    box-shadow: 0 8px 25px rgba(116, 185, 255, 0.3);
+}
+
+.cta-button.secondary:hover {
+    box-shadow: 0 15px 35px rgba(116, 185, 255, 0.4);
+}
+
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.floating-element {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-element:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-element:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 15%;
+    animation-delay: 2s;
+}
+
+.floating-element:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 4s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.stats-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin: 80px 20px 0;
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out 1.2s both;
+}
+
+.stat-item {
+    text-align: center;
+    color: white;
+    margin: 10px;
+}
+
+.stat-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5em;
+    }
+    
+    .feature-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stats-section {
+        flex-direction: column;
+        gap: 20px;
+    }
 }
 </style>
 </head>
 <body>
-	<h1>감성 공유 일기장에 오신 것을 환영합니다!</h1>
-	<div class="btn-group">
-		<a th:href="@{/diary/bbs}" class="bbs-btn">전체게시글</a>
-		<a th:href="@{/diary/bbs/mypage}" class="bbs-btn">개인게시글</a>
-		<!-- 로그인 안 한 경우: 회원가입/로그인 버튼 -->
-		<th:block th:if="${session.userid == null}">
-			<a th:href="@{/diary/signup}" class="signup-btn">회원가입</a>
-			<a th:href="@{/diary/login}" class="login-btn">로그인</a>
-		</th:block>
-		<a th:href="@{/diary/bbs/write}" class="write-btn">글쓰기</a>
-		<!-- 로그인 한 경우: 로그아웃 버튼만 -->
-		<th:block th:if="${session.userid != null}">
-			<a th:href="@{/diary/logout}" class="logout-btn">로그아웃</a>
-		</th:block>
-	</div>
+    <div th:replace="~{header :: header}"></div>
+    
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+    
+    <section class="hero-section">
+        <h1 class="hero-title">감성 공유 일기장</h1>
+        <p class="hero-subtitle">당신의 소중한 순간들을 기록하고 공유하세요</p>
+        
+        <div class="feature-cards">
+            <div class="feature-card">
+                <span class="feature-icon">📝</span>
+                <h3 class="feature-title">일상 기록</h3>
+                <p class="feature-description">소중한 하루하루의 순간들을 아름답게 기록해보세요</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">💭</span>
+                <h3 class="feature-title">감정 공유</h3>
+                <p class="feature-description">다른 사람들과 감정과 생각을 나누며 소통해보세요</p>
+            </div>
+            
+            <div class="feature-card">
+                <span class="feature-icon">🌟</span>
+                <h3 class="feature-title">추억 보관</h3>
+                <p class="feature-description">특별한 순간들을 영원히 간직할 수 있는 공간입니다</p>
+            </div>
+        </div>
+                
+        <div class="cta-section">
+            <th:block th:if="${session.userid == null}">
+                <a th:href="@{/diary/signup}" class="cta-button">지금 시작하기</a>
+                <a th:href="@{/diary/login}" class="cta-button secondary">로그인</a>
+            </th:block>
+            <th:block th:if="${session.userid != null}">
+                <a th:href="@{/diary/bbs/write}" class="cta-button">새 일기 작성</a>
+                <a th:href="@{/diary/bbs}" class="cta-button secondary">일기 둘러보기</a>
+            </th:block>
+        </div>
+    </section>
 </body>
 </html>

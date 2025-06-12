@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>게시글 내용</title>
 <style>
@@ -115,6 +116,8 @@ h3 {
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="article-container">
 		<h3>게시글 내용</h3>
 		<div class="top-links">

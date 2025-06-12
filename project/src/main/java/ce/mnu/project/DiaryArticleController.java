@@ -30,28 +30,27 @@ public class DiaryArticleController {
 		model.addAttribute("articles", data);
 		return "diary_articles";
 	}
-	
+
 	@GetMapping("bbs/mypage")
 	public String autharticles(Model model, HttpSession session) {
-	    String userid = (String) session.getAttribute("userid");
-	    // 로그인안하면 로그인시킴
-	    if (userid == null) {
-	        return "redirect:/diary/login";
-	    }
+		String userid = (String) session.getAttribute("userid");
+		// 로그인안하면 로그인시킴
+		if (userid == null) {
+			return "redirect:/diary/login";
+		}
 
-	    Iterable<ArticleHeader> data = userService.getMyArticleHeaders(userid);
-	    model.addAttribute("articles", data);
-	    return "diary_articles_mypage";
+		Iterable<ArticleHeader> data = userService.getMyArticleHeaders(userid);
+		model.addAttribute("articles", data);
+		return "diary_articles_mypage";
 	}
-
 
 	@GetMapping("bbs/read")
 	public String readArticle(@RequestParam(name = "num") Long num, Model model, HttpSession session) {
 		Article article = userService.getArticle(num);
 		List<Comment> comments = userService.getCommentsByArticleNum(num);
-		
+
 		model.addAttribute("article", article);
-		model.addAttribute("comments",comments);
+		model.addAttribute("comments", comments);
 		return "diary_article";
 	}
 
@@ -72,24 +71,22 @@ public class DiaryArticleController {
 		userService.save(dto);
 		return "diary_write_done";
 	}
-	
+
 	@PostMapping("bbs/comment")
-	public String postComment(@RequestParam Long articleNum,
-							  @RequestParam String content,
-							  HttpSession session) {
-		String userid = (String)session.getAttribute("userid");
-		if(userid ==null) {
+	public String postComment(@RequestParam Long articleNum, @RequestParam String content, HttpSession session) {
+		String userid = (String) session.getAttribute("userid");
+		if (userid == null) {
 			return "redirect:/diary/login";
 		}
 		Article article = userService.getArticle(articleNum);
-		
+
 		Comment comment = new Comment();
 		comment.setAuthor(userid);
 		comment.setContent(content);
 		comment.setArticle(article);
-		
+
 		userService.saveComment(comment);
-		
+
 		return "redirect:/diary/bbs/read?num=" + articleNum;
 	}
 

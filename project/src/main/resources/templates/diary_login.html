@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>사용자 로그인</title>
 <style>
@@ -62,6 +63,8 @@ input[type="reset"] {
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="login-container">
 		<h3>사용자 로그인</h3>
 

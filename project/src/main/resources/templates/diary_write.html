@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>게시물 글 작성</title>
 <style>
@@ -71,6 +72,8 @@ input[type="submit"]:hover {
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="write-container">
 		<h3>게시물 글 작성</h3>
 		<form th:action="@{/diary/bbs/write}" method="post">
@@ -82,8 +85,8 @@ input[type="submit"]:hover {
 				<textarea name="contents" required></textarea>
 			</p>
 			<p>
-				<input type="reset" value="취소" onclick="history.back();" />
-				<input type="submit" value="등록" />
+				<input type="reset" value="취소" onclick="history.back();" /> <input
+					type="submit" value="등록" />
 			</p>
 		</form>
 	</div>

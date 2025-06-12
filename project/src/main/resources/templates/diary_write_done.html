@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>글 작성 완료</title>
 <style>
@@ -54,6 +55,8 @@ p {
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="complete-container">
 		<h3>글 작성 완료</h3>
 		<p>글 작성이 성공적으로 완료되었습니다.</p>

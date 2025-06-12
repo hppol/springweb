@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>회원가입</title>
 <style>
@@ -20,20 +21,21 @@ body {
 	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-h2 {
+.signup-container h2 {
 	text-align: center;
 	color: #333;
 	margin-bottom: 28px;
 }
 
-label {
+.signup-container label {
 	display: block;
 	margin-bottom: 8px;
 	color: #444;
 	font-weight: bold;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
+.signup-container input[type="text"], .signup-container input[type="email"],
+	.signup-container input[type="password"] {
 	width: 100%;
 	padding: 10px 8px;
 	margin-bottom: 18px;
@@ -44,19 +46,20 @@ input[type="text"], input[type="email"], input[type="password"] {
 	transition: border 0.2s;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus
-	{
+.signup-container input[type="text"]:focus, .signup-container input[type="email"]:focus,
+	.signup-container input[type="password"]:focus {
 	border: 1.5px solid #4f8cff;
 	outline: none;
 }
 
-.button-row {
+.signup-container .button-row {
 	display: flex;
 	justify-content: space-between;
 	gap: 4%;
 }
 
-.signup-btn, .back-btn {
+/* 더 구체적인 선택자 사용 */
+.signup-container .form-signup-btn, .signup-container .form-back-btn {
 	width: 48%;
 	padding: 12px 0;
 	background: #4f8cff;
@@ -72,20 +75,22 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	display: inline-block;
 }
 
-.signup-btn:hover {
+.signup-container .form-signup-btn:hover {
 	background: #357ae8;
 }
 
-.back-btn {
+.signup-container .form-back-btn {
 	background: #aaa;
 }
 
-.back-btn:hover {
+.signup-container .form-back-btn:hover {
 	background: #888;
 }
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="signup-container">
 		<h2>회원가입</h2>
 		<form method="post" th:action="@{/diary/signup}">
@@ -93,9 +98,10 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 			<input type="email" name="email" required> <label>아이디</label>
 			<input type="text" name="userid" required> <label>비밀번호</label>
 			<input type="password" name="passwd" required>
+
 			<div class="button-row">
-				<a th:href="@{/diary}" class="back-btn">뒤로가기</a> <input
-					type="submit" value="가입하기" class="signup-btn">
+				<a th:href="@{/diary}" class="form-back-btn">뒤로가기</a> <input
+					type="submit" value="가입하기" class="form-signup-btn">
 			</div>
 		</form>
 	</div>

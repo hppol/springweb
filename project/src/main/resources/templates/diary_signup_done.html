@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>회원가입 완료</title>
 <style>
@@ -47,6 +48,8 @@ h2 {
 </style>
 </head>
 <body>
+	<div th:replace="~{header :: header}"></div>
+
 	<div class="complete-container">
 		<h2>회원가입이 완료되었습니다!</h2>
 		<a th:href="@{/diary}" class="main-btn">일기장 메인으로</a>

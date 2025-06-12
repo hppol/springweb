@@ -44,11 +44,11 @@ public class DiaryAuthenticationController {
 		SiteUser user = userService.findByUserid(dto.getUserid());
 		if (user != null && dto.getPasswd().equals(user.getPasswd())) {
 			session.setAttribute("userid", dto.getUserid());
+			session.setAttribute("username", user.getName());
 			return "diary_login_done";
 		}
 		rd.addFlashAttribute("loginError", "아이디 또는 비밀번호가 올바르지 않습니다.");
 		return "redirect:/diary/login";
-
 	}
 
 	@GetMapping("/logout")
