@@ -1,58 +1,150 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css" />
 <meta charset="UTF-8">
 <title>로그인 완료</title>
 <style>
 body {
-	background: #f8fafc;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	font-family: 'Segoe UI', Arial, sans-serif;
 	margin: 0;
 	padding: 0;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .complete-container {
-	width: 350px;
-	margin: 120px auto;
-	padding: 36px 28px 32px 28px;
-	background: #fff;
-	border-radius: 10px;
-	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	width: 400px;
+	padding: 50px 40px;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(10px);
+	border-radius: 20px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 	text-align: center;
+	animation: slideUp 0.5s ease-out;
+}
+
+.success-icon {
+	font-size: 4em;
+	margin-bottom: 20px;
+	animation: bounce 0.6s ease-out;
 }
 
 h2 {
 	color: #333;
-	margin-bottom: 32px;
-	font-size: 1.5em;
+	margin-bottom: 15px;
+	font-size: 1.8em;
+	font-weight: 600;
 }
 
-.main-btn {
-	display: inline-block;
-	padding: 12px 38px;
-	background: #4f8cff;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
+.welcome-text {
+	color: #666;
 	font-size: 1.1em;
-	font-weight: bold;
-	text-decoration: none;
-	transition: background 0.2s;
-	margin-top: 12px;
+	margin-bottom: 25px;
 }
 
-.main-btn:hover {
-	background: #357ae8;
+.loading-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	color: #888;
+	font-size: 1em;
+}
+
+.loading-dots {
+	display: flex;
+	gap: 4px;
+}
+
+.loading-dot {
+	width: 8px;
+	height: 8px;
+	background: #667eea;
+	border-radius: 50%;
+	animation: loading 1.4s infinite ease-in-out both;
+}
+
+.loading-dot:nth-child(1) { animation-delay: -0.32s; }
+.loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes bounce {
+	0%, 20%, 53%, 80%, 100% {
+		transform: translate3d(0,0,0);
+	}
+	40%, 43% {
+		transform: translate3d(0, -30px, 0);
+	}
+	70% {
+		transform: translate3d(0, -15px, 0);
+	}
+	90% {
+		transform: translate3d(0, -4px, 0);
+	}
+}
+
+@keyframes loading {
+	0%, 80%, 100% {
+		transform: scale(0);
+	}
+	40% {
+		transform: scale(1);
+	}
+}
+
+.fade-out {
+	animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+	to {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
 }
 </style>
 </head>
 <body>
-	<div th:replace="~{header :: header}"></div>
 
-	<div class="complete-container">
-		<h2>로그인이 완료되었습니다!</h2>
-		<a th:href="@{/diary}" class="main-btn">일기장 메인으로</a>
+	<div class="complete-container" id="loginContainer">
+		<div class="success-icon">🎉</div>
+		<h2>로그인 완료!</h2>
+		<p class="welcome-text" th:text="${session.username} + '님, 환영합니다!'">환영합니다!</p>
+		
+		<div class="loading-container">
+			<span>메인 페이지로 이동 중</span>
+			<div class="loading-dots">
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+				<div class="loading-dot"></div>
+			</div>
+		</div>
 	</div>
+
+	<script>
+		// 1.5초 후 페이드아웃 효과와 함께 메인 페이지로 이동
+		setTimeout(function() {
+			const container = document.getElementById('loginContainer');
+			container.classList.add('fade-out');
+			
+			// 페이드아웃 애니메이션 완료 후 페이지 이동
+			setTimeout(function() {
+				window.location.href = '/diary';
+			}, 300);
+		}, 1500);
+	</script>
 </body>
 </html>
