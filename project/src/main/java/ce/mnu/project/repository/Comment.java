@@ -23,6 +23,9 @@ public class Comment {
 
     @Column(length = 20, nullable = false)
     private String author;
+    
+    @Column(nullable=false)
+    private int likes = 0;
 
     @ManyToOne
     @JoinColumn(name = "article_id", nullable = false)

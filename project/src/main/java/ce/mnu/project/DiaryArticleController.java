@@ -1,6 +1,8 @@
 package ce.mnu.project;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ce.mnu.project.domain.ArticleDTO;
 import ce.mnu.project.repository.Article;
 import ce.mnu.project.repository.ArticleHeader;
 import ce.mnu.project.repository.Comment;
+import ce.mnu.project.repository.CommentRepository;
 import ce.mnu.project.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
 
@@ -24,6 +28,8 @@ public class DiaryArticleController {
 
 	@Autowired
 	private SiteUserService userService;
+	@Autowired
+	private CommentRepository commentRepository;
 
 	@GetMapping("bbs")
 	public String articles(Model model) {
@@ -100,5 +106,19 @@ public class DiaryArticleController {
 
 		return "redirect:/diary/bbs/read?num=" + articleNum;
 	}
+	
+	@PostMapping("/bbs/comment/like")
+	@ResponseBody
+	public Map<String, Object> likeComment(@RequestParam Long commentId) {
+	    Comment comment = commentRepository.findById(commentId)
+	                          .orElseThrow(() -> new RuntimeException("댓글 없음"));
+	    comment.setLikes(comment.getLikes() + 1);
+	    commentRepository.save(comment);
+	    
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("likes", comment.getLikes());
+	    return result;
+	}
+
 
 }

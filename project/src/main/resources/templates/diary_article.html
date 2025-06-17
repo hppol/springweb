@@ -150,6 +150,11 @@ h3 {
 				<p>
 					<strong th:text="${comment.author}"></strong> : <span
 						th:text="${comment.content}"></span>
+					<button type = "button"
+							class = "like-button"
+							th:attr="data-id=${comment.id}">
+						❤️ (<span th:text="${comment.likes}">0</span>)
+						</button>
 				</p>
 			</div>
 
@@ -166,3 +171,27 @@ h3 {
 	</div>
 </body>
 </html>
+<script>
+document.querySelectorAll('.like-button').forEach(button => {
+    button.addEventListener('click', () => {
+        const commentId = button.getAttribute('data-id');
+        fetch('/diary/bbs/comment/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: `commentId=${commentId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            button.querySelector('span').textContent = data.likes;
+        })
+        .catch(err => {
+            alert('좋아요 처리에 실패했습니다.');
+            console.error(err);
+        });
+    });
+});
+</script>
+
