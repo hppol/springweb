@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,6 +109,7 @@ public class DiaryArticleController {
 		return "redirect:/diary/bbs/read?num=" + articleNum;
 	}
 	
+	//댓글 좋아요 기능
 	@PostMapping("/bbs/comment/like")
 	@ResponseBody
 	public Map<String, Object> likeComment(@RequestParam Long commentId) {
@@ -119,6 +122,31 @@ public class DiaryArticleController {
 	    result.put("likes", comment.getLikes());
 	    return result;
 	}
+	
+	@PostMapping("/bbs/article/delete")
+	public String deleteArticle(@RequestParam Long articleNum, HttpSession session, RedirectAttributes rd) {
+	    String currentUserId = (String) session.getAttribute("userid");
+	    if (currentUserId == null) {
+	        rd.addFlashAttribute("reason", "로그인이 필요합니다.");
+	        return "redirect:/diary/login";
+	    }
+
+	    Article article = userService.findByNum(articleNum);
+	    if (article == null) {
+	        rd.addFlashAttribute("reason", "게시글이 존재하지 않습니다.");
+	        return "redirect:/diary/bbs";
+	    }
+
+	    if (!currentUserId.equals(article.getAuthorId())) {
+	        rd.addFlashAttribute("reason", "삭제 권한이 없습니다.");
+	        return "redirect:/diary/bbs";
+	    }
+
+	    userService.delete(articleNum);
+	    rd.addFlashAttribute("message", "게시글이 삭제되었습니다.");
+	    return "redirect:/diary/bbs";
+	}
+
 
 
 }

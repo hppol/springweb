@@ -122,6 +122,18 @@ h3 {
 		<h3>게시글 내용</h3>
 		<div class="top-links">
 			<a th:href="@{/diary/bbs}">글 목록</a>
+			
+			<!-- 글 삭제 -->
+   			<form th:if="${session.userid != null and session.userid.equals(article.author)}"
+          			th:action="@{/diary/bbs/article/delete}"
+          			method="post"
+			        style="display:inline;">
+			      <input type="hidden" name="articleNum" th:value="${article.num}" />
+			      <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?')"
+			              style="background:#ff5c5c; color:white; border:none; padding:8px 16px; border-radius:30px; cursor:pointer;">
+			          글 삭제
+			      </button>
+    </form>
 		</div>
 		<table class="detail-table">
 			<tr>
