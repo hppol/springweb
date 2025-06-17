@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,4 +26,13 @@ public class Article {
 	private String contents;
 	@Column(name = "created_at", nullable = false)
 	private LocalDateTime createdAt;
+	@Column(name = "author_id", length = 50, nullable = false)
+	private String authorId;
+	@Column(name = "is_public", nullable = false)
+	private Boolean isPublic = true;
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = LocalDateTime.now();
+	}
 }

@@ -7,4 +7,6 @@ public interface ArticleHeader {
 
 	String getAuthor();
 
+	Integer getIsPublic();
+
 }

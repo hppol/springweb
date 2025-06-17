@@ -49,6 +49,40 @@ h3 {
 	background: #357ae8;
 }
 
+/* 필터 버튼 스타일 추가 */
+.filter-buttons {
+	text-align: center;
+	margin: 20px 0;
+	padding: 15px;
+	background: #f8f9fa;
+	border-radius: 10px;
+}
+
+.filter-btn {
+	display: inline-block;
+	margin: 0 8px;
+	padding: 10px 20px;
+	background: #e9ecef;
+	color: #495057;
+	border-radius: 25px;
+	text-decoration: none;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+}
+
+.filter-btn:hover {
+	background: #dee2e6;
+	transform: translateY(-2px);
+}
+
+.filter-btn.active {
+	background: #4f8cff;
+	color: white;
+	border-color: #357ae8;
+	box-shadow: 0 4px 12px rgba(79, 140, 255, 0.3);
+}
+
 .table-list {
 	width: 100%;
 	border-collapse: collapse;
@@ -75,16 +109,68 @@ h3 {
 	color: #444;
 	font-size: 1em;
 }
+
+.table-list td a {
+	color: #333;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.table-list td a:hover {
+	color: #4f8cff;
+}
+
+.privacy-badge {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: 15px;
+	font-size: 0.8em;
+	font-weight: bold;
+	margin-left: 8px;
+}
+
+.public-badge {
+	background: #e8f5e8;
+	color: #2e7d32;
+}
+
+.private-badge {
+	background: #ffebee;
+	color: #c62828;
+}
+
+.info-text {
+	text-align: center;
+	color: #666;
+	font-size: 0.9em;
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #f8f9fa;
+	border-radius: 8px;
+}
 </style>
 </head>
 <body>
 	<div th:replace="~{header :: header}"></div>
 
 	<div class="articles-container">
-		<h3>내가 쓴 글</h3>
+		<h3>📝 내가 쓴 글</h3>
+		<div class="info-text">🌍 공개글은 전체 게시판에서 모든 사용자가 볼 수 있고, 🔒 개인글은
+			나만 볼 수 있습니다.</div>
+
+		<!-- 필터 버튼 추가 -->
+		<div class="filter-buttons">
+			<a th:href="@{/diary/bbs/mypage(filter=all)}"
+				th:class="${currentFilter == 'all' or currentFilter == null} ? 'filter-btn active' : 'filter-btn'">
+				📋 전체보기 </a> <a th:href="@{/diary/bbs/mypage(filter=public)}"
+				th:class="${currentFilter == 'public'} ? 'filter-btn active' : 'filter-btn'">
+				🌍 공개글만 </a> <a th:href="@{/diary/bbs/mypage(filter=private)}"
+				th:class="${currentFilter == 'private'} ? 'filter-btn active' : 'filter-btn'">
+				🔒 개인글만 </a>
+		</div>
+
 		<div class="top-links">
-			<a th:href="@{/diary}">첫 페이지</a>
-			<!-- 로그인한 경우만 글쓰기 버튼 노출 -->
+			<a th:href="@{/diary}">홈</a> <a th:href="@{/diary/bbs}">전체게시글</a>
 			<th:block th:if="${session.userid != null}">
 				<a th:href="@{/diary/bbs/write}">글 작성</a>
 			</th:block>
@@ -94,12 +180,19 @@ h3 {
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성자</th>
+				<th>공개설정</th>
 			</tr>
 			<tr th:each="article : ${articles}">
 				<td th:text="${article.num}"></td>
 				<td><a th:href="@{/diary/bbs/read(num=${article.num})}">
 						[[${article.title}]] </a></td>
 				<td th:text="${article.author}"></td>
+				<td><span th:if="${article.isPublic == 1}"
+					class="privacy-badge public-badge">🌍 공개</span> <span
+					th:if="${article.isPublic == 0}"
+					class="privacy-badge private-badge">🔒 개인</span> <span
+					th:if="${article.isPublic == null}"
+					class="privacy-badge public-badge">🌍 공개</span></td>
 			</tr>
 		</table>
 	</div>

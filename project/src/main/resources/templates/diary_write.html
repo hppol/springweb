@@ -13,7 +13,7 @@ body {
 }
 
 .write-container {
-	width: 650px; /* 기존 400px에서 크게! */
+	width: 650px;
 	margin: 80px auto;
 	padding: 40px 36px 36px 36px;
 	background: #fff;
@@ -43,7 +43,54 @@ input[type="text"], textarea {
 }
 
 textarea {
-	min-height: 220px; /* 기존보다 훨씬 큼 */
+	min-height: 220px;
+}
+
+/* 공개/비공개 선택 스타일 */
+.visibility-options {
+	margin: 24px 0;
+	padding: 20px;
+	background: #f8f9fa;
+	border-radius: 10px;
+	border: 1px solid #e9ecef;
+}
+
+.visibility-options h4 {
+	margin: 0 0 15px 0;
+	color: #333;
+	font-size: 1.1em;
+}
+
+.radio-group {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.radio-option {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border-radius: 8px;
+	transition: background 0.2s;
+}
+
+.radio-option:hover {
+	background: rgba(79, 140, 255, 0.1);
+}
+
+.radio-option input[type="radio"] {
+	margin: 0;
+	transform: scale(1.2);
+}
+
+.radio-option label {
+	margin: 0;
+	cursor: pointer;
+	font-weight: normal;
+	font-size: 1em;
+	color: #444;
 }
 
 input[type="reset"], input[type="submit"] {
@@ -69,6 +116,11 @@ input[type="reset"]:hover {
 input[type="submit"]:hover {
 	background: #357ae8;
 }
+
+.button-container {
+	text-align: center;
+	margin-top: 30px;
+}
 </style>
 </head>
 <body>
@@ -78,16 +130,33 @@ input[type="submit"]:hover {
 		<h3>게시물 글 작성</h3>
 		<form th:action="@{/diary/bbs/write}" method="post">
 			<p>
-				제목: <input type="text" name="title" required />
+				제목: <input type="text" name="title" required placeholder="제목을 입력하세요" />
 			</p>
 			<p>
 				내용:
-				<textarea name="contents" required></textarea>
+				<textarea name="contents" required placeholder="내용을 입력하세요"></textarea>
 			</p>
-			<p>
+
+			<!-- 공개/비공개 선택 추가 -->
+			<div class="visibility-options">
+				<h4>📝 공개 설정</h4>
+				<div class="radio-group">
+					<div class="radio-option">
+						<input type="radio" id="public" name="isPublic" value="true"
+							checked> <label for="public">🌍 전체 공개 - 모든 사용자가 볼
+							수 있습니다</label>
+					</div>
+					<div class="radio-option">
+						<input type="radio" id="private" name="isPublic" value="false">
+						<label for="private">🔒 개인 일기 - 나만 볼 수 있습니다</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="button-container">
 				<input type="reset" value="취소" onclick="history.back();" /> <input
 					type="submit" value="등록" />
-			</p>
+			</div>
 		</form>
 	</div>
 </body>

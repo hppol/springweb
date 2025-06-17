@@ -8,4 +8,5 @@ public class ArticleDTO {
 	private String title;
 	private String contents;
 	private String created_at;
+	private Boolean isPublic;
 }

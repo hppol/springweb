@@ -75,33 +75,95 @@ h3 {
 	color: #444;
 	font-size: 1em;
 }
+
+/* 추가된 스타일들 */
+.table-list td a {
+	color: #333;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.table-list td a:hover {
+	color: #4f8cff;
+}
+
+.info-text {
+	text-align: center;
+	color: #666;
+	font-size: 0.9em;
+	margin-bottom: 20px;
+	padding: 10px;
+	background: #f8f9fa;
+	border-radius: 8px;
+}
+
+.public-badge {
+	display: inline-block;
+	padding: 4px 10px;
+	border-radius: 15px;
+	font-size: 0.8em;
+	font-weight: bold;
+	margin-left: 8px;
+	background: #e8f5e8;
+	color: #2e7d32;
+}
+
+.empty-state {
+	text-align: center;
+	padding: 60px 20px;
+	color: #666;
+}
+
+.empty-state h4 {
+	margin-bottom: 10px;
+	color: #999;
+}
+
+.empty-state p {
+	margin: 0;
+	font-size: 0.9em;
+}
 </style>
 </head>
 <body>
 	<div th:replace="~{header :: header}"></div>
 
 	<div class="articles-container">
-		<h3>전체 글</h3>
+		<h3>🌍 전체 공개 게시글</h3>
+		<div class="info-text">모든 사용자가 공개한 게시글을 볼 수 있습니다. 개인 일기는 각자의
+			개인게시판에서만 확인 가능합니다.</div>
 		<div class="top-links">
-			<a th:href="@{/diary}">첫 페이지</a>
-			<!-- 로그인한 경우만 글쓰기 버튼 노출 -->
+			<a th:href="@{/diary}">홈</a> <a th:href="@{/diary/bbs/mypage}">개인게시글</a>
 			<th:block th:if="${session.userid != null}">
 				<a th:href="@{/diary/bbs/write}">글 작성</a>
 			</th:block>
 		</div>
-		<table class="table-list">
-			<tr>
-				<th>번호</th>
-				<th>제목</th>
-				<th>작성자</th>
-			</tr>
-			<tr th:each="article : ${articles}">
-				<td th:text="${article.num}"></td>
-				<td><a th:href="@{/diary/bbs/read(num=${article.num})}">
-						[[${article.title}]] </a></td>
-				<td th:text="${article.author}"></td>
-			</tr>
-		</table>
+
+		<!-- 게시글이 있을 때 -->
+		<div th:if="${articles != null and not #lists.isEmpty(articles)}">
+			<table class="table-list">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>상태</th>
+				</tr>
+				<tr th:each="article : ${articles}">
+					<td th:text="${article.num}"></td>
+					<td><a th:href="@{/diary/bbs/read(num=${article.num})}">
+							[[${article.title}]] </a></td>
+					<td th:text="${article.author}"></td>
+					<td><span class="public-badge">🌍 공개</span></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- 게시글이 없을 때 -->
+		<div th:if="${articles == null or #lists.isEmpty(articles)}"
+			class="empty-state">
+			<h4>📝 아직 공개된 게시글이 없습니다</h4>
+			<p>첫 번째 글을 작성해보세요!</p>
+		</div>
 	</div>
 </body>
 </html>

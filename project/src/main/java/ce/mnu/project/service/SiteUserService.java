@@ -24,12 +24,12 @@ public class SiteUserService {
 	private ArticleRepository articleRepository;
 	@Autowired
 	private CommentRepository commentRepository;
-	
+
 	public void saveComment(Comment comment) {
 		commentRepository.save(comment);
 	}
-	
-	public List<Comment> getCommentsByArticleNum(Long articleNum){
+
+	public List<Comment> getCommentsByArticleNum(Long articleNum) {
 		return commentRepository.findByArticleNum(articleNum);
 	}
 
@@ -50,11 +50,14 @@ public class SiteUserService {
 		return userRepository.findByUserid(userid);
 	}
 
-	public void save(ArticleDTO dto) {
+	// 수정된 부분: isPublic 추가
+	public void save(ArticleDTO dto, String authorId) {
 		Article article = new Article();
 		article.setAuthor(dto.getAuthor());
+		article.setAuthorId(authorId);
 		article.setTitle(dto.getTitle());
 		article.setContents(dto.getContents());
+		article.setIsPublic(dto.getIsPublic() != null ? dto.getIsPublic() : true); // 추가!
 		article.setCreatedAt(LocalDateTime.now());
 		articleRepository.save(article);
 	}
@@ -62,10 +65,16 @@ public class SiteUserService {
 	public Iterable<Article> getArticleAll() {
 		return articleRepository.findAll();
 	}
-	
-	public Iterable<ArticleHeader> getMyArticleHeaders(String userid) {
-	    return articleRepository.findArticleHeadersByAuthor(userid);
+
+	public Iterable<ArticleHeader> getMyArticleHeaders(String authorId) {
+		return articleRepository.findArticleHeadersByAuthorId(authorId);
 	}
 
+	public Iterable<ArticleHeader> getMyPublicArticles(String authorId) {
+		return articleRepository.findMyPublicArticles(authorId);
+	}
 
+	public Iterable<ArticleHeader> getMyPrivateArticles(String authorId) {
+		return articleRepository.findMyPrivateArticles(authorId);
+	}
 }

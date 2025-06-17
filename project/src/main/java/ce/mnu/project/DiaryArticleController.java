@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ce.mnu.project.domain.ArticleDTO;
 import ce.mnu.project.repository.Article;
@@ -32,15 +33,25 @@ public class DiaryArticleController {
 	}
 
 	@GetMapping("bbs/mypage")
-	public String autharticles(Model model, HttpSession session) {
+	public String getMyArticles(@RequestParam(defaultValue = "all") String filter, Model model, HttpSession session,
+			RedirectAttributes rd) {
 		String userid = (String) session.getAttribute("userid");
-		// 로그인안하면 로그인시킴
 		if (userid == null) {
+			rd.addFlashAttribute("reason", "로그인이 필요합니다");
 			return "redirect:/diary/login";
 		}
 
-		Iterable<ArticleHeader> data = userService.getMyArticleHeaders(userid);
-		model.addAttribute("articles", data);
+		Iterable<ArticleHeader> myArticles;
+		if ("public".equals(filter)) {
+			myArticles = userService.getMyPublicArticles(userid); // 공개글만
+		} else if ("private".equals(filter)) {
+			myArticles = userService.getMyPrivateArticles(userid); // 개인글만
+		} else {
+			myArticles = userService.getMyArticleHeaders(userid); // 전체
+		}
+
+		model.addAttribute("articles", myArticles);
+		model.addAttribute("currentFilter", filter);
 		return "diary_articles_mypage";
 	}
 
@@ -68,7 +79,7 @@ public class DiaryArticleController {
 	public String writeSubmit(ArticleDTO dto, HttpSession session) {
 		String userid = (String) session.getAttribute("userid");
 		dto.setAuthor(userid);
-		userService.save(dto);
+		userService.save(dto, userid);
 		return "diary_write_done";
 	}
 
