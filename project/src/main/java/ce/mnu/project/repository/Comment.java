@@ -1,21 +1,16 @@
 package ce.mnu.project.repository;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="commnet")
 @Data
 public class Comment {
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(length = 1000, nullable = false)
@@ -23,7 +18,7 @@ public class Comment {
 
     @Column(length = 20, nullable = false)
     private String author;
-    
+
     @Column(nullable=false)
     private int likes = 0;
 
@@ -31,4 +26,7 @@ public class Comment {
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
+    // 댓글 좋아요 연관관계 추가 (cascade = REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 }

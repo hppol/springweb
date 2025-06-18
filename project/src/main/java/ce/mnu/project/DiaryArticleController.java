@@ -20,6 +20,8 @@ import ce.mnu.project.domain.ArticleDTO;
 import ce.mnu.project.repository.Article;
 import ce.mnu.project.repository.ArticleHeader;
 import ce.mnu.project.repository.Comment;
+import ce.mnu.project.repository.CommentLike;
+import ce.mnu.project.repository.CommentLikeRepository;
 import ce.mnu.project.repository.CommentRepository;
 import ce.mnu.project.service.SiteUserService;
 import jakarta.servlet.http.HttpSession;
@@ -110,18 +112,36 @@ public class DiaryArticleController {
    }
    
    //댓글 좋아요 기능
+   @Autowired
+   private CommentLikeRepository commentLikeRepository;
+
    @PostMapping("/bbs/comment/like")
    @ResponseBody
-   public Map<String, Object> likeComment(@RequestParam Long commentId) {
+   public Map<String, Object> likeComment(@RequestParam Long commentId, HttpSession session) {
+       Map<String, Object> result = new HashMap<>();
+       String userId = (String) session.getAttribute("userid");
+       if (userId == null) {
+           result.put("error", "로그인이 필요합니다.");
+           return result;
+       }
        Comment comment = commentRepository.findById(commentId)
                              .orElseThrow(() -> new RuntimeException("댓글 없음"));
+       if (commentLikeRepository.existsByCommentAndUserId(comment, userId)) {
+           result.put("error", "이미 좋아요를 누르셨습니다.");
+           result.put("likes", comment.getLikes());
+           return result;
+       }
        comment.setLikes(comment.getLikes() + 1);
        commentRepository.save(comment);
-       
-       Map<String, Object> result = new HashMap<>();
+       CommentLike like = new CommentLike();
+       like.setComment(comment);
+       like.setUserId(userId);
+       commentLikeRepository.save(like);
        result.put("likes", comment.getLikes());
        return result;
    }
+
+
    
    @PostMapping("/bbs/article/delete")
    public String deleteArticle(@RequestParam Long articleNum, HttpSession session, RedirectAttributes rd) {
